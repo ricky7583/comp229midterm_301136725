@@ -25,14 +25,14 @@
                 <!-- Template Row -->
                 <% for (let count = 0; count < books.length; count++) { %>
                 <tr>
-                  <td class="text-center"><%= books[count].Title %></td>
+                  <td><%= books[count].Title %></td>
                   <td class="text-center"><%= books[count].Price %></td>
                   <td class="text-center"><%= books[count].Author %></td>
                   <td class="text-center"><%= books[count].Genre %></td>
 
                   <td class="text-center col-2">
-                            <a href="/books/edit/<%= books[count]._id %>" class="btn btn-info">
-                                <i class="fas fa-pencil-alt"></i> Edit</a>
+                  <a href="/books/<%= books[count]._id %>" class="btn btn-info">
+                  <i class="fas fa-pencil-alt"></i> Edit</a>
                         </td>
                   </td>
 

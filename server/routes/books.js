@@ -16,112 +16,88 @@ router.get('/', (req, res, next) => {
       return console.error(err);
     }
     else {
-      res.render('books/index', {
-        title: 'Books',
-        books: books
-      });
+      res.render('books/index', {title: 'Books', books: books});
     }
   });
-
 });
 
 //  GET the Book Details page in order to add a new Book
 router.get('/add', (req, res, next) => {
-  book.find((err, books) => {
-    if (err) {
-      return console.err(err);
-    } else {
-      res.render('books/details', {
-      title: 'New Book',
-      books: books,
-      Title: book.Title,
-      Description: book.Description,
-      Price: book.Price,
-      Author: book.Author,
-      Genre: book.Genre
-      });
-    }
+  let emptyBook = book({
+    "title":"",
+    "description":"",
+    "Price":"",
+    "Author":"",
+    "Genre":""
   });
+  res.render('books/details', {title: 'Add Book info', books: emptyBook});
 });
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
-  const new_book = new book({
-    Title: req.body.title_txt,
-    Description: "",
-    Price: req.body.price_txt,
-    Author: req.body.author_txt,
-    Genre: req.body.genre.txt    
+  let newBook = book({
+    "title": req.body.title,
+    "description": "",
+    "price": req.body.price,
+    "author": req.body.author,
+    "genre": req.body.genre    
   });
-  book.find((err, books) => {
-    if (err){
-      return console.error(err);
-    } else {
-      res.render('books/index', {
-        title: 'Books',
-        books: books
-      });
-    }
-  });
-  return res.redirect('/books');
+
+  book.create(newBook, (err, book) => {
+   if (err) {
+      console.log(err);
+      res.end(err);
+     } else {
+      res.redirect('/books');
+      }
+    });
 });
 
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
-  book.findById(req.params.id,value,(err,books) => {
+  let id = req.params.id;
+  book.findById(id,(err, bookToEdit) => {
     if (err){
-      return console.error(err);
+      console.log(err);
+      res.end(err);
     } else {
-      res.render('books/details', {
-        title: "Edit book info",
-        books: book,
-        Title: book.title,
-        Description: book.Description,
-        Price: book.Price,
-        Author: book.Author,
-        Genre: book.genre
-      });
+      res.render('books/details', {title: 'Edit book info', books: bookToEdit})
     }
   });
 });
 
 // POST - process the information passed from the details form and update the document
 router.post('/:id', (req, res, next) => {
-  const new_book = new book({
-      Title: req.body.title_txt,
-      Description: "",
-      Price: req.body.price_txt,
-      Author: req.body.author_txt,
-      Genre: req.body.genre.txt    
+  let id = req.params.id;
+
+  let editBookinfo = book({
+    "_id":id,
+    "title":req.body.title,
+    "description":"",
+    "price":req.body.price,
+    "author":req.body.author,
+    "genre":req.body.genre
     });
-      book.find((err,books) => {
-        if (err){
-          return console.error(err);
-        } else {
-          res.render('books/index', {
-            title: 'Books', 
-            books: books
-          });
-        }
-      });
+    book.updateOne({_id: id}, editBookinfo, (err) => {
+      if (err) {
+          console.log(err);
+          res.end(err);    
+      } else {
+          res.redirect('/books');
+      }
+   });
   });
 
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
-  book.findById(id,(err,books) => {
-    if (err){
-      return console.error(err);
-    } else {
-      res.render('book/details', {
-        title: 'Delete book info',
-        books: books,
-        Title: books.title,
-        Description: book.Description,
-        Price: book.price,
-        Author: book.Author,
-        Genre: book.Genre
-      });
-    }
+let id = req.params.id;
+book.remove({_id:id}, (err) => {
+  if(err){
+    console.log(err);
+    res.end(err);
+  }else{
+        res.redirect('/books');
+      }
   });
 });
 
