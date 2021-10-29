@@ -1,3 +1,10 @@
+/*
+Name : Sungmin Lee
+Student # : 301136725
+Course Code : COMP229
+Course Name : Web application Development
+Mid-Term Test
+*/
 // moddules for node and express
 let createError = require('http-errors');
 let express = require('express');

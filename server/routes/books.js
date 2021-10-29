@@ -1,9 +1,14 @@
+/*
+Name : Sungmin Lee
+Student # : 301136725
+Course Code : COMP229
+Course Name : Web application Development
+Mid-Term Test
+*/
 // modules required for routing
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
-const { title } = require('process');
-const books = require('../models/books');
 
 // define the book model
 let book = require('../models/books');
@@ -29,11 +34,11 @@ router.get('/add', (req, res, next) => {
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
   let newBook = book({
-    "title": req.body.title,
-    "description": "",
-    "price": req.body.price,
-    "author": req.body.author,
-    "genre": req.body.genre    
+    "Title": req.body.Title,
+    "Description": "",
+    "Price": req.body.Price,
+    "Author": req.body.Author,
+    "Genre": req.body.Genre    
   });
 
   book.create(newBook, (err, book) => {
@@ -43,7 +48,7 @@ router.post('/add', (req, res, next) => {
      } else {
       res.redirect('/books');
       }
-    });
+    })
 });
 
 // GET the Book Details page in order to edit an existing Book
@@ -65,11 +70,11 @@ router.post('/edit/:id', (req, res, next) => {
 
   let editBookinfo = book({
     "_id":id,
-    "title":req.body.title,
-    "description":"",
-    "price":req.body.price,
-    "author":req.body.author,
-    "genre":req.body.genre
+    "Title":req.body.Title,
+    "Description":"",
+    "Price":req.body.Price,
+    "Author":req.body.Author,
+    "Genre":req.body.Genre
     });
     book.updateOne({_id: id}, editBookinfo, (err) => {
       if (err) {
@@ -78,7 +83,7 @@ router.post('/edit/:id', (req, res, next) => {
       } else {
           res.redirect('/books');
       }
-   });
+   })
   });
 
 // GET - process the delete by user id
