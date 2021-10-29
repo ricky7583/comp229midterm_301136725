@@ -23,14 +23,7 @@ router.get('/', (req, res, next) => {
 
 //  GET the Book Details page in order to add a new Book
 router.get('/add', (req, res, next) => {
-  let emptyBook = book({
-    "title":"",
-    "description":"",
-    "Price":"",
-    "Author":"",
-    "Genre":""
-  });
-  res.render('books/details', {title: 'Add Book info', books: emptyBook});
+  res.render('books/details', {title: 'Add Book info', books: ''});
 });
 
 // POST process the Book Details page and create a new Book - CREATE
